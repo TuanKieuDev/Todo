@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:todo_provider/models/task_data.dart';
 import '../models/task.dart';
 import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
@@ -11,11 +12,7 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'Buy coffe', isDone: false),
-    Task(name: 'Buy clothes', isDone: true),
-    Task(name: 'Buy milk', isDone: false),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +48,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -73,7 +70,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       topRight: Radius.circular(20.0)
                   ),
               ),
-              child: TasksList(tasks),
+              child: TasksList(),
             ),
           )
         ],
@@ -81,12 +78,7 @@ class _TasksScreenState extends State<TasksScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           showModalBottomSheet(context: context, builder: (context) =>
-              AddTaskScreen(addTaskCallback: (newTaskTitle){
-                setState(() {
-                  tasks.add(Task(name: newTaskTitle, isDone: false));
-                });
-                Navigator.pop(context);
-              }));
+              AddTaskScreen());
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(Icons.add),
